@@ -20,7 +20,7 @@ Yazılım bölümünde ise **yabancı kişileri tanımlama** ve **bildirme** ola
 * Uygulama için önyükleme şartı olan kütüphaneler: time, threading, serial, imutils, face_recognition, pickle, cv2, smtp ve email
 
 ### Kurulum
-Sistem terminali (Ctrl+Alt+Del) açılır ve aşağıdaki yüklemeler yapılır.
+Sistem terminali (Ctrl+Alt+T) açılır ve aşağıdaki yüklemeler yapılır.
 
 ```
 sudo apt-get update
@@ -45,7 +45,7 @@ sudo chmod 777 /dev/ttyACM0
 
 ### Uygulama Çalıştırılması
 
-* Sistem terminali (Ctrl+Alt+Del) açılır ve aşağıdaki komut girilmelidir.
+* Sistem terminali (Ctrl+Alt+T) açılır ve aşağıdaki komut girilmelidir.
 
 ```
 python3 Secure_cam_app.py
