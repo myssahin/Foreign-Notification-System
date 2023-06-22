@@ -71,6 +71,6 @@ Atabey SAHIN
 
 Bu proje [Apache-2.0 license] lisansı ile lisanslanmıştır. Lisans detaylarına LICENSE.md dosyasından bakabilirsiniz.
 
-## Acknowledgments
+## Teşekkürler
 
 Keyifli bir yüksek lisans projesi geliştirmeye destek olduğu için hocam Serkan AYDIN ve dönem arkadaşlarıma teşekkür ederim.
