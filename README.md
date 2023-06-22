@@ -59,7 +59,7 @@ Herhangi bir problem veya soru olması durumunda repo issues başlığından sor
 
 Atabey SAHIN
 
-## Version History
+## Versiyon Geçmişi
 
 * 0.2
     * Uygulama tamamlandı ve test edildi.
