@@ -10,4 +10,4 @@ Planlanan proje ile çeşitli sorunlara çözüm sunulması hedeflenmektedir;
 *	Evdeki güvenliği arttırmak: Kamera sistemleri evdeki güvenliği arttırabilir. Özellikle yalnız yaşayanlar veya yaşlı kişiler için bu sistemler, acil durumlarda yardımcı olabilecekleri bir alarm sistemi gibi hareket edebilir.
 *	Acil durumlara müdahale: Kamera sistemleri, evde veya apartmanlarda oluşabilecek acil durumlara hızlı bir şekilde müdahale edilmesine yardımcı olabilir.
 
-*	Projenin detaylı anlatımı için [Proje Adımları](https://github.com/myssahin/Foreign-Notification-System/wiki) sayfasına gidebilirsiniz.
+*	Projenin detaylı anlatımı için [Proje Detayları](https://github.com/myssahin/Foreign-Notification-System/wiki) sayfasına gidebilirsiniz.
