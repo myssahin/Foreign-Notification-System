@@ -1,4 +1,3 @@
-import serial
 import threading
 from imutils.video import VideoStream
 import face_recognition
@@ -10,15 +9,29 @@ import cv2
 from mail import *
 from headshots import *
 from train_model import *
+import Adafruit_ADS1x15
 
 target_email = None
 source_email = None
 password = None
 
+# Address of ADS1115
+ADS1115_ADDRESS = 0x48
+
+# Input channel of ADS1115
+ADS1115_CHANNEL = 0
+
+# sampling rate of ADS1115(8, 16, 32, 64, 128, 250, 475, 860 SPS)
+ADS1115_RATE = 250
+
+# Gain of ADS1115(1, 2, 4, 8, 16)
+ADS1115_GAIN = 1
+
+
 #File path which includes email credentials
 file_path = "email_credentials.txt"
-# Specify the serial port and baud rate (2000000) the Arduino is connected to
-ser = serial.Serial('/dev/ttyACM0', 2000000)
+# Create ADS1115 object
+ads1115 = Adafruit_ADS1x15.ADS1115(address=ADS1115_ADDRESS)
 #Determine faces from encodings.pickle file model created from train_model.py
 encodingsP = "encodings.pickle"
 
@@ -62,12 +75,6 @@ def camera():
                 # will select first entry in the dictionary)
                 name = max(counts, key=counts.get)
 
-                # If someone in your dataset is identified, print their name on the screen
-                """
-                if "Unknown" != name:
-                    print(name)
-                """
-
                 # update the list of names
             names.append(name)
         count = names.count("Unknown")
@@ -93,30 +100,27 @@ class SensorThread(threading.Thread):
         start_time = time.time()
 
         while self.sensor_thr_status:
-            #if there is any waiting data
-            if ser.inWaiting() > 0:
-                #Read data and clean unnecessary line break character
-                data = ser.readline().decode().rstrip()
-                try:
-                    val = int(float(data))
-                except:
-                    pass
+            #Read data and clean unnecessary line break character
+            data = ads1115.read_adc(ADS1115_CHANNEL, gain=ADS1115_GAIN, data_rate=ADS1115_RATE)
+            try:
+                val = int(float(data))
+            except:
+                pass
 
-                if time.time() - start_time < 10:
-                    if val > 5:
-                        #print(val)
-                        #Add values to list
-                        values.append(val)
+            if time.time() - start_time < 10:
+                if val > 5:
+                    #Add values to list
+                    values.append(val)
+            else:
+                average = sum(values)# / (len(values) + 1)
+                print("average: ", average)
+                if average > 5000:
+                    camera_thread = threading.Thread(target=camera)
+                    camera_thread.start()
+                    camera_thread.join()
                 else:
-                    average = sum(values)# / (len(values) + 1)
-                    print("average: ", average)
-                    if average > 5000:
-                        camera_thread = threading.Thread(target=camera)
-                        camera_thread.start()
-                        camera_thread.join()
-                    else:
-                        start_time = time.time()
-                    values = []
+                    start_time = time.time()
+                values = []
 
     def get_sensor_thr_status(self):
         return self.sensor_thr_status
@@ -160,13 +164,6 @@ def first_registration():
     register_person()
 
 if __name__ == "__main__":
-    #print("To add person to database, press any key...")
-    #reg_thread = threading.Thread(target=first_registration)  #
-    #reg_thread.start()
-    #time.sleep(5)
-    #reg_thread.join()
-    # load the known faces and embeddings along with OpenCV's Haar
-    # cascade for face detection
     print("[INFO] loading encodings + face detector...")
     try:
         data = pickle.loads(open(encodingsP, "rb").read())
